@@ -1,0 +1,10 @@
+stages:
+  - test
+  - deploy
+
+Unit Tests:
+  stage: test
+  image: python:3.8
+  script:
+    - pip install -r requirements.txt
+    - flake8 main.py
