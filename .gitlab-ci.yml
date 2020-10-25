@@ -8,6 +8,7 @@ Unit Tests:
   script:
     - pip install -r requirements.txt
     - flake8 .
+    - pytest -v
 
 Deploy DEV:
   stage: deploy dev
