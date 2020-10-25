@@ -8,3 +8,9 @@ Unit Tests:
   script:
     - pip install -r requirements.txt
     - flake8 .
+
+Deploy DEV:
+  stage: deploy
+  image: google/cloud-sdk:alpine
+  script:
+    - ./ingestion/publish_tweet_requests/deploy.sh
