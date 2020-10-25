@@ -59,7 +59,7 @@ def _request_tweets(ticker, searches, since, until):
                 tweets.append({
                     "created_at": item["created_at"],
                     "id": item["id"],
-                    "text": item["full_text"],
+                    "text": item["full_text"].encode("utf-8"),
                     "retweet_count": item["retweet_count"],
                     "favorite_count": item["favorite_count"],
                 })
