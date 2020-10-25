@@ -1,6 +1,7 @@
 stages:
   - test
-  - deploy dev
+  - deploy
+  - integration
 
 Unit Tests:
   stage: test
@@ -15,10 +16,10 @@ Unit Tests:
   script:
     - pip install -r requirements.txt
     - flake8 .
-    - pytest -v
+    - pytest -v -m "not integration"
 
 Deploy DEV:
-  stage: deploy dev
+  stage: deploy
   image: google/cloud-sdk:alpine
   variables:
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
@@ -30,3 +31,13 @@ Deploy DEV:
   script:
     - ./ingestion/publish_tweet_requests/deploy.sh
     - ./ingestion/request_tweets/deploy.sh
+
+Integration Tests:
+  stage: integration
+  image: python:3.8
+  variables:
+    GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
+    GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
+  script:
+    - pip install -r requirements.txt
+    - pytest -v -m "integration"
