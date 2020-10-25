@@ -20,7 +20,7 @@ def run(event, context):
     print(f" - data: {data}")
 
     tweets = _request_tweets(data["ticker"], data["searches"], data["since"], data["until"])
-    _save_to_cloud_storage(tweets)
+    _save_to_cloud_storage(tweets, data["ticker"])
 
 
 def _request_tweets(ticker, searches, since, until):
