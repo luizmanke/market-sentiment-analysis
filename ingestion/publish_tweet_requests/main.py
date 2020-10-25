@@ -12,7 +12,6 @@ from google.oauth2.service_account import Credentials
 def run():
     CREDENTIALS = os.getenv("GOOGLE_CREDENTIALS")
     PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
-    TOPIC_ID = os.getenv("GOOGLE_TOPIC_ID")
     COMPANIES = {
         "PETR": {"id": "18750", "searches": ["petrobras", "#petr", "#petr3", "#petr4"]}
     }
@@ -26,7 +25,7 @@ def run():
     # Publish messages
     credentials = Credentials.from_service_account_info(json.loads(CREDENTIALS))
     publisher = pubsub_v1.PublisherClient(credentials=credentials)
-    topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
+    topic_path = publisher.topic_path(PROJECT_ID, topic="tweet-request")
     for ticker, values in COMPANIES.items():
         data = {
             "ticker": ticker,

@@ -1,6 +1,6 @@
 stages:
   - test
-  - deploy
+  - deploy dev
 
 Unit Tests:
   stage: test
@@ -10,7 +10,10 @@ Unit Tests:
     - flake8 .
 
 Deploy DEV:
-  stage: deploy
+  stage: deploy dev
   image: google/cloud-sdk:alpine
+  variables:
+    GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
+    GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
   script:
     - ./ingestion/publish_tweet_requests/deploy.sh
