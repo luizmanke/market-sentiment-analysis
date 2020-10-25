@@ -6,7 +6,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 # Own packages
-import main
+from ..publish_tweet_requests import main
 
 # Configurations
 load_dotenv()
