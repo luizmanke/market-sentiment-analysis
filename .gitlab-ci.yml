@@ -7,4 +7,4 @@ Unit Tests:
   image: python:3.8
   script:
     - pip install -r requirements.txt
-    - flake8 main.py
+    - flake8 .
