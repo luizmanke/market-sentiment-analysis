@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # System packages
+from datetime import datetime
 from dotenv import load_dotenv
 
 # Own packages
@@ -11,8 +12,11 @@ import main
 load_dotenv()
 
 
-def test_publish_tweet_requests():
-    COMPANIES = {
-        "TEST": {"id": "01234", "searches": ["test", "#test", "#test3"]}
-    }
-    main._run(COMPANIES)
+def test_get_period():
+    since, until = main._get_period()
+    datetime.strptime(since, "%Y-%m-%d")
+    datetime.strptime(until, "%Y-%m-%d")
+
+
+def test_connect_to_google_pubsub():
+    main._connect_to_google_pubsub(topic="tweet-request")

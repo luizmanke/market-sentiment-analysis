@@ -13,12 +13,8 @@ def run():
     COMPANIES = {
         "PETR": {"id": "18750", "searches": ["petrobras", "#petr", "#petr3", "#petr4"]}
     }
-    _run(COMPANIES)
-
-
-def _run(companies):
     since, until = _get_period()
-    _publish_tweet_requests(companies, since, until)
+    _publish_tweet_requests(COMPANIES, since, until)
 
 
 def _get_period():
