@@ -6,6 +6,7 @@ gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
 echo "GOOGLE_CREDENTIALS: '$GOOGLE_CREDENTIALS'" >> .env.yaml
 echo "GOOGLE_PROJECT_ID: '$GOOGLE_PROJECT_ID'" >> .env.yaml
 gcloud functions deploy publish_tweet_requests \
+    --project $GOOGLE_PROJECT_ID \
     --entry-point run \
     --runtime python38 \
     --trigger-topic tweet-request-trigger \
