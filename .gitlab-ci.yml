@@ -5,6 +5,9 @@ stages:
 Unit Tests:
   stage: test
   image: python:3.8
+  variables:
+    GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
+    GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
   script:
     - pip install -r requirements.txt
     - flake8 .
