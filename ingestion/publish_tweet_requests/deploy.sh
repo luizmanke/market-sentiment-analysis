@@ -1,3 +1,6 @@
+# Change directory
+cd ingestion/publish_tweet_requests
+
 # Authenticate
 echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
 gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
