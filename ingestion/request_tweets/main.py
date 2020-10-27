@@ -6,6 +6,7 @@ import json
 import os
 import pandas as pd
 import twitter
+from datetime import datetime
 from google.cloud import storage
 from google.oauth2.service_account import Credentials
 from io import StringIO
@@ -74,7 +75,8 @@ def _save_to_cloud_storage(tweets, file_name):
     document = StringIO()
     tweets.to_csv(document)
     document.seek(0)
-    bucket.blob(f"{file_name}.csv").upload_from_file(document, content_type="text/csv")
+    date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    bucket.blob(f"{file_name}-{date}.csv").upload_from_file(document, content_type="text/csv")
 
 
 def _connect_to_cloud_storage_bucket():

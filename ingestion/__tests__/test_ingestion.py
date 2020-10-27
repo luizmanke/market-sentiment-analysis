@@ -14,7 +14,7 @@ from ..request_tweets import main as request_tweets
 load_dotenv()
 
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_ingestion():
     publish_tweet_requests._run({
         "TEST": {"id": "01234", "searches": ["test", "#test", "#test"]}
@@ -23,11 +23,12 @@ def test_ingestion():
 
     # Wait for file
     i = 0
-    while bucket.get_blob("TEST.csv") is None:
-        time.sleep(60)
+    found = False
+    while not found:
+        for blob in bucket.list_blobs():
+            if "TEST" in blob.name:
+                bucket.delete_blob("TEST.csv", timeout=30)
+        time.sleep(30)
         i += 1
-        if i == 5:
-            raise Exception("Data was not ingested")
-
-    # Delete file
-    bucket.delete_blob("TEST.csv", timeout=30)
+        if i == 10:
+            raise Exception("Data was not ingested.")    
