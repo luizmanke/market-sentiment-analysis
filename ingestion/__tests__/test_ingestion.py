@@ -28,6 +28,7 @@ def test_ingestion():
         for blob in bucket.list_blobs():
             if "TEST" in blob.name:
                 bucket.delete_blob(blob.name, timeout=30)
+                return
         time.sleep(30)
         i += 1
         if i == 10:
