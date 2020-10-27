@@ -31,4 +31,4 @@ def test_ingestion():
         time.sleep(30)
         i += 1
         if i == 10:
-            raise Exception("Data was not ingested.")    
+            raise Exception("Data was not ingested.")
