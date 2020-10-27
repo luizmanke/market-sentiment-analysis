@@ -27,7 +27,7 @@ def test_ingestion():
     while not found:
         for blob in bucket.list_blobs():
             if "TEST" in blob.name:
-                bucket.delete_blob("TEST.csv", timeout=30)
+                bucket.delete_blob(blob.name, timeout=30)
         time.sleep(30)
         i += 1
         if i == 10:
