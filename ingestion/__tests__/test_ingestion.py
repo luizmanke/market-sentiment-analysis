@@ -14,7 +14,7 @@ from ..request_tweets import main as request_tweets
 load_dotenv()
 
 
-# @pytest.mark.integration
+@pytest.mark.integration
 def test_ingestion():
     publish_tweet_requests._run({
         "TEST": {"id": "01234", "searches": ["test", "#test", "#test"]}
