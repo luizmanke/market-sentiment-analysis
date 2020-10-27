@@ -20,6 +20,7 @@ Deploy DEV:
   variables:
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
     GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
+    GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
     - ./ingestion/publish_tweet_requests/deploy.sh
     - ./ingestion/request_tweets/deploy.sh
@@ -30,6 +31,7 @@ Integration Tests:
   variables:
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
     GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
+    GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
     - pip install -r requirements.txt
     - pytest -v -m "integration"

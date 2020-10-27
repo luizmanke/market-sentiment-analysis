@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 # System packages
-import base64
 import json
 import os
 import pandas as pd
@@ -12,11 +11,9 @@ from google.oauth2.service_account import Credentials
 from io import StringIO
 
 
-def run(event, context):
+def run(request):
 
-    # Decode message
-    message = base64.b64decode(event["data"]).decode("utf-8")
-    data = json.loads(message)
+    data = request.get_json()
     print(f" - data: {data}")
 
     tweets = _request_tweets(data["ticker"], data["searches"], data["since"], data["until"])

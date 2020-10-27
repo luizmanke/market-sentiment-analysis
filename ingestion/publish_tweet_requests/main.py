@@ -5,11 +5,14 @@
 import json
 import os
 from datetime import datetime, timedelta
-from google.cloud import pubsub_v1
+from google.cloud import tasks_v2
 from google.oauth2.service_account import Credentials
 
+# Globals
+PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
 
-def run():
+
+def run(request):
     COMPANIES = {
         "PETR": {"id": "18750", "searches": ["petrobras", "#petr", "#petr3", "#petr4"]}
     }
@@ -30,7 +33,10 @@ def _get_period():
 
 
 def _publish_tweet_requests(companies, since, until):
-    publisher, topic_path = _connect_to_google_pubsub(topic="tweet-request")
+    GOOGLE_SERVICE_ACCOUNT_EMAIL = os.getenv("GOOGLE_SERVICE_ACCOUNT_EMAIL")
+    url = f"https://southamerica-east1-{PROJECT_ID}.cloudfunctions.net/request_tweets"
+    client, queue_path = _connect_to_google_queue()
+
     for ticker, values in companies.items():
         data = {
             "ticker": ticker,
@@ -40,18 +46,32 @@ def _publish_tweet_requests(companies, since, until):
         }
         data = json.dumps(data)
         data = data.encode("utf-8")
-        future = publisher.publish(topic_path, data)
+
+        task = {
+            "name": (
+                f"projects/{PROJECT_ID}/locations/southamerica-east1/"
+                f"queues/tweet-request-queue/tasks/2-{ticker}"
+            ),
+            "http_request": {
+                "oidc_token": {"service_account_email": GOOGLE_SERVICE_ACCOUNT_EMAIL},
+                "http_method": tasks_v2.HttpMethod.POST,
+                "headers": {"Content-type": "application/json"},
+                "url": url,
+                "body": data,
+            }
+        }
+        response = client.create_task(request={"parent": queue_path, "task": task})
+
         print(
             f" - ticker: {ticker}  "
             f"searches: {values['searches']}  "
-            f"future: {future.result()}"
+            f"task: {response.name}"
         )
 
 
-def _connect_to_google_pubsub(topic):
+def _connect_to_google_queue():
     CREDENTIALS = os.getenv("GOOGLE_CREDENTIALS")
-    PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
     credentials = Credentials.from_service_account_info(json.loads(CREDENTIALS))
-    publisher = pubsub_v1.PublisherClient(credentials=credentials)
-    topic_path = publisher.topic_path(PROJECT_ID, topic)
-    return publisher, topic_path
+    client = tasks_v2.CloudTasksClient(credentials=credentials)
+    queue_path = client.queue_path(PROJECT_ID, "southamerica-east1", "tweet-request-queue")
+    return client, queue_path

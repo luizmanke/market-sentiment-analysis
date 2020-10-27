@@ -15,8 +15,8 @@ echo "TWITTER_CONSUMER_SECRET: '$TWITTER_CONSUMER_SECRET'" >> .env.yaml
 gcloud functions deploy request_tweets \
     --project $GOOGLE_PROJECT_ID \
     --entry-point run \
-    --runtime python38 \
-    --trigger-topic tweet-request \
+    --runtime python37 \
+    --trigger-http \
     --memory 512 \
     --timeout 300 \
     --env-vars-file .env.yaml

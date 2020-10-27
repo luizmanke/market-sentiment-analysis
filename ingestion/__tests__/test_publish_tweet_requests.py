@@ -18,5 +18,5 @@ def test_get_period():
     datetime.strptime(until, "%Y-%m-%d")
 
 
-def test_connect_to_google_pubsub():
-    main._connect_to_google_pubsub(topic="tweet-request")
+def test_connect_to_google_queue():
+    main._connect_to_google_queue()

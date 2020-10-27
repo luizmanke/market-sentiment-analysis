@@ -3,7 +3,7 @@ certifi==2020.6.20
 chardet==3.0.4
 google-api-core==1.23.0
 google-auth==1.22.1
-google-cloud-pubsub==2.1.0
+google-cloud-tasks==2.0.0
 googleapis-common-protos==1.52.0
 grpc-google-iam-v1==0.12.3
 grpcio==1.33.1
