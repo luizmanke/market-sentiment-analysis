@@ -1,10 +1,10 @@
 stages:
-  - test
-  - deploy
-  - integration
+  - unit test
+  - deploy dev
+  - integration test
 
 Unit Tests:
-  stage: test
+  stage: unit test
   image: python:3.8
   variables:
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
@@ -16,7 +16,7 @@ Unit Tests:
     - pytest -v -m "not integration"
 
 Deploy DEV:
-  stage: deploy
+  stage: deploy dev
   image: google/cloud-sdk:alpine
   variables:
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
@@ -28,7 +28,7 @@ Deploy DEV:
     - ./ingestion/request_tweets/deploy.sh
 
 Integration Tests:
-  stage: integration
+  stage: integration test
   image: python:3.8
   variables:
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV

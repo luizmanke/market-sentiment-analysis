@@ -17,7 +17,7 @@ load_dotenv()
 @pytest.mark.integration
 def test_ingestion():
     publish_tweet_requests._run({
-        "TEST": {"id": "01234", "searches": ["test", "#test", "#test"]}
+        "TEST": {"id": "01234", "searches": ["unit test", "#unittest"]}
     })
     bucket = request_tweets._connect_to_cloud_storage_bucket()
 
@@ -29,7 +29,7 @@ def test_ingestion():
             if "TEST" in blob.name:
                 bucket.delete_blob(blob.name, timeout=30)
                 return
-        time.sleep(30)
+        time.sleep(10)
         i += 1
         if i == 10:
             raise Exception("Data was not ingested.")

@@ -12,7 +12,7 @@ from google.oauth2.service_account import Credentials
 def run(request):
     COMPANIES = {
         "ABEV": {"id": "", "searches": ["ambev", "#abev", "#abev3"]},
-        "AZUL": {"id": "", "searches": ["azul", "#azul", "#azul4"]},
+        "AZUL": {"id": "", "searches": ["azul linhas aereas", "#azul", "#azul4"]},
         "B3SA": {"id": "", "searches": ["b3", "#b3sa", "#b3sa3"]},
         "BBAS": {"id": "", "searches": ["banco do brasil", "#bbas", "#bbas3"]},
         "BBDC": {"id": "", "searches": ["bradesco", "#bbdc", "#bbdc3", "#bbdc4"]},
