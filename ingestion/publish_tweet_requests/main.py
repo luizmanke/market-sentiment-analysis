@@ -122,7 +122,7 @@ def _publish_tweet_requests(companies, since, until):
 
         task = {
             "name": (
-                f"projects/{PROJECT_ID}/locations/{REGION}/"
+                f"projects/{PROJECT_ID}/locations/southamerica-east1/"
                 f"queues/tweet-request-queue/tasks/{ticker}-{date}"
             ),
             "http_request": {
@@ -144,9 +144,8 @@ def _publish_tweet_requests(companies, since, until):
 
 def _connect_to_google_queue():
     CREDENTIALS = os.getenv("GOOGLE_CREDENTIALS")
-    REGION = os.getenv("GOOGLE_REGION")
     PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
     credentials = Credentials.from_service_account_info(json.loads(CREDENTIALS))
     client = tasks_v2.CloudTasksClient(credentials=credentials)
-    queue_path = client.queue_path(PROJECT_ID, REGION, "tweet-request-queue")
+    queue_path = client.queue_path(PROJECT_ID, "southamerica-east1", "tweet-request-queue")
     return client, queue_path
