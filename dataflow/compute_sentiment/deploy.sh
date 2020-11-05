@@ -14,6 +14,7 @@ gcloud functions deploy compute_sentiment \
     --entry-point run \
     --runtime python37 \
     --trigger-resource gs://tweets-requested/ \
+    --trigger-event google.storage.object.finalize \
     --memory 512 \
     --timeout 300 \
     --env-vars-file .env.yaml
