@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # System packages
+import emoji
 import json
 import os
 import pandas as pd
@@ -55,9 +53,9 @@ def _request_tweets(ticker, searches, since, until):
         for item in response["statuses"]:
             if "retweeted_status" not in item and item["in_reply_to_status_id"] is None:
                 tweets.append({
-                    "created_at": item["created_at"],
+                    "tweet_date": item["created_at"],
                     "id": item["id"],
-                    "text": item["full_text"].encode("utf-8"),
+                    "tweet": emoji.demojize(item["full_text"]),
                     "retweet_count": item["retweet_count"],
                     "favorite_count": item["favorite_count"],
                 })
@@ -73,7 +71,7 @@ def _request_tweets(ticker, searches, since, until):
 def _save_to_cloud_storage(tweets, file_name):
     bucket = _connect_to_cloud_storage_bucket()
     document = StringIO()
-    tweets.to_csv(document)
+    tweets.to_csv(document, index=False)
     document.seek(0)
     date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     bucket.blob(f"{file_name}-{date}.csv").upload_from_file(document, content_type="text/csv")
