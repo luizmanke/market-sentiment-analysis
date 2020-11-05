@@ -26,6 +26,7 @@ Deploy DEV:
   script:
     - ./ingestion/publish_tweet_requests/deploy.sh
     - ./ingestion/request_tweets/deploy.sh
+    - ./dataflow/compute_sentiment/deploy.sh
 
 Integration Tests:
   stage: integration test
@@ -37,4 +38,5 @@ Integration Tests:
     GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
     - pip install -r requirements.txt
-    - pytest -v -m "integration"
+    - pytest -v -m "integration" ingestion
+    - pytest -v -m "integration" dataflow
