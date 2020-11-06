@@ -1,6 +1,6 @@
 stages:
   # - unit test
-  # - deploy dev
+  - deploy dev
   - integration test
 
 Unit Tests:
