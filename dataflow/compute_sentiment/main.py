@@ -26,7 +26,6 @@ def _publish_dataflow(file_name):
         "region": os.getenv("GOOGLE_REGION"),
         "job_name": file_name[:-4].lower(),
         "save_main_session": True,
-        "requirements_file": "requirements.txt",
         "temp_location": "gs://tweets-requested/dataflow/temp",
         "staging_location": "gs://tweets-requested/dataflow/staging"
     }
