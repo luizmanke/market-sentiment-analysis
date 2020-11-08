@@ -1,4 +1,5 @@
 # System packages
+import base64
 import emoji
 import json
 import os
@@ -55,7 +56,8 @@ def _request_tweets(ticker, searches, since, until):
                 tweets.append({
                     "tweet_date": item["created_at"],
                     "id": item["id"],
-                    "tweet": emoji.demojize(item["full_text"]),
+                    "tweet": _encode_string(item["full_text"]),
+                    "full_text": item["full_text"],
                     "retweet_count": item["retweet_count"],
                     "favorite_count": item["favorite_count"],
                 })
@@ -66,6 +68,14 @@ def _request_tweets(ticker, searches, since, until):
         max_id = response["statuses"][-1]["id"] - 1
 
     return pd.DataFrame(tweets)
+
+
+def _encode_string(string):
+    string_wo_emoji = emoji.demojize(string)
+    binary_string = string_wo_emoji.encode("utf-8")
+    b64_string = base64.b64encode(binary_string)
+    string_encoded = b64_string.decode("utf-8")
+    return string_encoded
 
 
 def _save_to_cloud_storage(tweets, file_name):
@@ -82,5 +92,6 @@ def _connect_to_cloud_storage_bucket():
     PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
     credentials = Credentials.from_service_account_info(json.loads(CREDENTIALS))
     client = storage.Client(credentials=credentials, project=PROJECT_ID)
+    # bucket = client.get_bucket(f"{PROJECT_ID}/tweets-requested")
     bucket = client.get_bucket("tweets-requested")
     return bucket

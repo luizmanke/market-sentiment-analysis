@@ -1,6 +1,8 @@
 # System packages
 import apache_beam as beam
 import argparse
+import base64
+import emoji
 import logging
 from apache_beam.io.textio import ReadFromText
 from apache_beam.ml.gcp import naturallanguageml as nlp
@@ -68,11 +70,19 @@ class Preprocess(beam.DoFn):
             "created_at": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
             "tweet_date": tweet_date,
             "id": int(id_),
-            "tweet": text,
+            "tweet": _decode_string(text),
             "retweet_count": int(retweet_count),
             "favorite_count": int(favorite_count)
         }
         return [(data["tweet"], data)]
+
+
+def _decode_string(string):
+    b64_string = string.encode("utf-8")
+    binary_string = base64.b64decode(b64_string)
+    string_decoded = binary_string.decode("utf-8")
+    string_w_emoji = emoji.emojize(string_decoded)
+    return string_w_emoji
 
 
 class CreateDocuments(beam.DoFn):
