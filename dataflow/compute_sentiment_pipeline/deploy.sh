@@ -16,4 +16,5 @@ python -m main \
     --staging_location gs://$GOOGLE_PROJECT_ID-dataflows/staging \
     --temp_location gs://$GOOGLE_PROJECT_ID-dataflows/temp \
     --template_location gs://$GOOGLE_PROJECT_ID-dataflows/templates/compute_sentiment \
+    --setup_file ./setup.py \
     --save_main_session True
