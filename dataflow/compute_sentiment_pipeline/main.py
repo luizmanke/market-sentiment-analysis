@@ -1,44 +1,32 @@
 # System packages
 import apache_beam as beam
-import os
+import argparse
+import logging
 from apache_beam.io.textio import ReadFromText
 from apache_beam.ml.gcp import naturallanguageml as nlp
-from apache_beam.options.pipeline_options import PipelineOptions, StandardOptions
+from apache_beam.options.pipeline_options import PipelineOptions
 from datetime import datetime
 
 
-def run(event, context):
-    file_name = event["name"]
-    _publish_dataflow(file_name)
-
-
-def _publish_dataflow(file_name):
-    GOOGLE_PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
+def run(argv=None):
     NLP_FEATURES = nlp.types.AnnotateTextRequest.Features(
         extract_entities=False,
         extract_document_sentiment=True,
         extract_syntax=False
     )
 
-    # Define pipeline options
-    pipeline_options = {
-        "project": GOOGLE_PROJECT_ID,
-        "region": os.getenv("GOOGLE_REGION"),
-        "job_name": file_name[:-4].lower(),
-        "save_main_session": True,
-        "requirements_file": "./requirements.txt",
-        "temp_location": "gs://tweets-requested/dataflow/temp",
-        "staging_location": "gs://tweets-requested/dataflow/staging"
-    }
-    options = PipelineOptions.from_dictionary(pipeline_options)
-    options.view_as(StandardOptions).runner = "dataflow"
+    # Parse arguments
+    parser = argparse.ArgumentParser()
+    _, pipeline_args = parser.parse_known_args(argv)
 
     # Create pipeline
-    p = beam.Pipeline(options=options)
+    pipeline_options = PipelineOptions()
+    custom_args = pipeline_options.view_as(CustomPipelineOptions)
+    p = beam.Pipeline(options=pipeline_options)
     data_preprocessed = (
         p
         | "Load from Storage" >> ReadFromText(
-            f"gs://tweets-requested/{file_name}", skip_header_lines=1)
+            custom_args.input_file_name, skip_header_lines=1)
         | "Preprocess" >> beam.ParDo(Preprocess())
     )
     tweet_sentiments = (
@@ -52,11 +40,18 @@ def _publish_dataflow(file_name):
         | "Group Results" >> beam.CoGroupByKey()
         | "Postprocess" >> beam.ParDo(Postprocess())
         | "Save to BigQuery" >> beam.io.WriteToBigQuery(
-            f"{GOOGLE_PROJECT_ID}:datasets.tweets",
+            custom_args.output_table_name,
             write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
         )
     )
     p.run()
+
+
+class CustomPipelineOptions(PipelineOptions):
+    @classmethod
+    def _add_argparse_args(cls, parser):
+        parser.add_value_provider_argument("--input_file_name")
+        parser.add_value_provider_argument("--output_table_name")
 
 
 class Preprocess(beam.DoFn):
@@ -101,3 +96,8 @@ class Postprocess(beam.DoFn):
         new_item = item[1][0][0]
         new_item.update(item[1][1][0])
         return [new_item]
+
+
+if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.INFO)
+    run()

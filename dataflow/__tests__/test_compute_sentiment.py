@@ -4,7 +4,7 @@ import pytest
 from dotenv import load_dotenv
 
 # Own packages
-from ..compute_sentiment import main as compute_sentiment
+from ..compute_sentiment_pipeline import main as compute_sentiment
 
 # Configurations
 load_dotenv()

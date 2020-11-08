@@ -1,5 +1,5 @@
 stages:
-  # - unit test
+  - unit test
   - deploy dev
   - integration test
 
@@ -26,7 +26,8 @@ Deploy DEV:
   script:
     - ./ingestion/publish_tweet_requests/deploy.sh
     - ./ingestion/request_tweets/deploy.sh
-    - ./dataflow/compute_sentiment/deploy.sh
+    - ./dataflow/compute_sentiment_pipeline/deploy.sh
+    - ./dataflow/compute_sentiment_trigger/deploy.sh
 
 Integration Tests:
   stage: integration test
