@@ -15,8 +15,8 @@ def test_request_tweets():
     since = (now - timedelta(days=1)).strftime("%Y-%m-%d")
     until = now.strftime("%Y-%m-%d")
     tweets = main._request_tweets(
-        ticker="PETR",
-        searches=["petrobras", "#petr", "#petr3", "#petr4"],
+        ticker="TEST",
+        searches=["ambev", "abev", "abev3"],
         since=since,
         until=until
     )
