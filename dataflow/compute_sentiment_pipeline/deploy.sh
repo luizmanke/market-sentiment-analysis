@@ -7,9 +7,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Deploy
-echo "AQUI"
 echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
-cat /tmp/$CI_PIPELINE_ID.json
 export GOOGLE_APPLICATION_CREDENTIALS=/tmp/$CI_PIPELINE_ID.json
 python -m main \
     --runner DataflowRunner \
