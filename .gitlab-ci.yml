@@ -34,8 +34,8 @@ Deploy DEV (python):
   variables:
     GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
     GOOGLE_REGION: $GOOGLE_REGION_DEV
+    GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
-    - sudo apt-get update && sudo apt-get install google-cloud-sdk
     - pip install virtualenv
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
 
