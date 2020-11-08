@@ -17,7 +17,7 @@ def test_publish_dataflow():
 
 def test_Preprocess():
     GROUND_TRUTH = {
-        "tweet_date": "2020-01-01 10:00:00",
+        "tweet_date": "Sat Nov 01 23:50:20 +0000 2020",
         "id": "123456789",
         "tweet": "RXUsIEpvw6NvLCBWaW5pIGUgTGVvIGdvc3RhbW9zIGRlIHByb2dyYW1hcg==",
         "retweet_count": "11",
