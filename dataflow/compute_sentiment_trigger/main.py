@@ -25,7 +25,7 @@ def run(event, context):
     )
     dataflow.projects().templates().launch(
         projectId=GOOGLE_PROJECT_ID,
-        gcsPath=f"gs://{GOOGLE_PROJECT_ID}/dataflows/templates/compute_sentiment",
+        gcsPath=f"gs://{GOOGLE_PROJECT_ID}-dataflows/templates/compute_sentiment",
         body={
             "environment": {
                 "zone": f"{GOOGLE_REGION}-b",
