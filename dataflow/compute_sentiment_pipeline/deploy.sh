@@ -1,6 +1,11 @@
 # Change directory
 cd dataflow/compute_sentiment_pipeline
 
+# Install dependencies
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
 # Deploy
 python -m main \
     --runner DataflowRunner \
