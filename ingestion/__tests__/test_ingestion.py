@@ -14,7 +14,7 @@ load_dotenv()
 @pytest.mark.integration
 def test_ingestion():
     publish_tweet_requests._run({
-        "TEST": {"id": "01234", "searches": ["unit test", "#unittest"]}
+        "TEST": {"id": "", "searches": ["ambev", "abev", "abev3"]}
     })
     bucket = request_tweets._connect_to_cloud_storage_bucket()
 
