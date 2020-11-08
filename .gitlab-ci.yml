@@ -11,6 +11,8 @@ Deploy DEV (python):
     GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
     - pip install virtualenv
+    - echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
+    - cat /tmp/$CI_PIPELINE_ID.json
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
 
 Integration Tests:
