@@ -10,9 +10,10 @@ Deploy DEV (python):
     GOOGLE_REGION: $GOOGLE_REGION_DEV
     GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
+    - echo $GOOGLE_CREDENTIALS > test.json
+    - ls
+    - type test.json
     - pip install virtualenv
-    - echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
-    - type /tmp/$CI_PIPELINE_ID.json
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
 
 Integration Tests:
