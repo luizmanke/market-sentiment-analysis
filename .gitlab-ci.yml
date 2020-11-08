@@ -35,6 +35,7 @@ Deploy DEV (python):
     GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
     GOOGLE_REGION: $GOOGLE_REGION_DEV
   script:
+    - pip install virtualenv
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
 
 Integration Tests:
