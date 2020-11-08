@@ -12,7 +12,7 @@ Deploy DEV (python):
   script:
     - pip install virtualenv
     - echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
-    - cat /tmp/$CI_PIPELINE_ID.json
+    - type /tmp/$CI_PIPELINE_ID.json
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
 
 Integration Tests:
