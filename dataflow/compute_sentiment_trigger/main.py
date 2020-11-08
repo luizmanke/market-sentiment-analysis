@@ -35,6 +35,6 @@ def run(event, context):
                 "input_file_name": input_file_name,
                 "output_table_name": output_table_name
             },
-            "jobName": file_triggered.lower()
+            "jobName": file_triggered[:-4].lower()
         }
     ).execute()
