@@ -57,7 +57,6 @@ def _request_tweets(ticker, searches, since, until):
                     "tweet_date": item["created_at"],
                     "id": item["id"],
                     "tweet": _encode_string(item["full_text"]),
-                    "full_text": item["full_text"],
                     "retweet_count": item["retweet_count"],
                     "favorite_count": item["favorite_count"],
                 })
