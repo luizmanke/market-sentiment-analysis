@@ -11,7 +11,8 @@ Deploy DEV (python):
     GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
   script:
     - echo $GOOGLE_CREDENTIALS > test.json
-    - ls
+    - cat tox.ini
+    - cat test.json
     - type test.json
     - pip install virtualenv
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
