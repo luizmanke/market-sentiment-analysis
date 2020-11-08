@@ -30,7 +30,7 @@ def test_Preprocess():
 
     assert type(item) == list
     assert type(item[0]) == tuple
-    assert item[0][0] == GROUND_TRUTH["tweet"]
+    assert item[0][0] == "Eu, João, Vini e Leo gostamos de programar"
     assert type(item[0][1]) == dict
     assert "created_at" in item[0][1]
     for key in GROUND_TRUTH.keys():
