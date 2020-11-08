@@ -92,6 +92,5 @@ def _connect_to_cloud_storage_bucket():
     PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
     credentials = Credentials.from_service_account_info(json.loads(CREDENTIALS))
     client = storage.Client(credentials=credentials, project=PROJECT_ID)
-    # bucket = client.get_bucket(f"{PROJECT_ID}/tweets-requested")
-    bucket = client.get_bucket("tweets-requested")
+    bucket = client.get_bucket(f"{PROJECT_ID}/tweets-requested")
     return bucket

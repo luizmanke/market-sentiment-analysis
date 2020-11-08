@@ -14,7 +14,7 @@ gcloud functions deploy compute_sentiment_trigger \
     --region $GOOGLE_REGION \
     --entry-point run \
     --runtime python37 \
-    --trigger-resource gs://tweets-requested/ \
+    --trigger-resource gs://$GOOGLE_PROJECT_ID/tweets-requested/ \
     --trigger-event google.storage.object.finalize \
     --memory 128 \
     --timeout 300 \
