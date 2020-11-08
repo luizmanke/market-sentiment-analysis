@@ -103,8 +103,9 @@ class RefactorSentimentResponse(beam.DoFn):
 
 class Postprocess(beam.DoFn):
     def process(self, item):
-        new_item = item[1][0][0]
-        new_item.update(item[1][1][0])
+        logging.INFO(item)
+        new_item = item[1][0]
+        new_item.update(item[1][1])
         return [new_item]
 
 
