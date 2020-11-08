@@ -15,7 +15,7 @@ Unit Tests:
     - flake8 .
     - pytest -v -m "not integration"
 
-Deploy DEV:
+Deploy DEV (gcloud):
   stage: deploy dev
   image: google/cloud-sdk:alpine
   variables:
@@ -28,6 +28,15 @@ Deploy DEV:
     - ./ingestion/request_tweets/deploy.sh
     - ./dataflow/compute_sentiment_pipeline/deploy.sh
     - ./dataflow/compute_sentiment_trigger/deploy.sh
+
+Deploy DEV (python):
+  stage: deploy dev
+  image: python:3.8
+  variables:
+    GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
+    GOOGLE_REGION: $GOOGLE_REGION_DEV
+  script:
+    - ./dataflow/compute_sentiment_pipeline/deploy.sh
 
 Integration Tests:
   stage: integration test
