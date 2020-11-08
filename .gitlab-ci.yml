@@ -1,32 +1,6 @@
 stages:
-  - unit test
   - deploy dev
   - integration test
-
-Unit Tests:
-  stage: unit test
-  image: python:3.8
-  variables:
-    GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
-    GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
-    GOOGLE_REGION: $GOOGLE_REGION_DEV
-  script:
-    - pip install -r requirements.txt
-    - flake8 .
-    - pytest -v -m "not integration"
-
-Deploy DEV (gcloud):
-  stage: deploy dev
-  image: google/cloud-sdk:alpine
-  variables:
-    GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
-    GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
-    GOOGLE_REGION: $GOOGLE_REGION_DEV
-    GOOGLE_SERVICE_ACCOUNT_EMAIL: $GOOGLE_SERVICE_ACCOUNT_EMAIL_DEV
-  script:
-    - ./ingestion/publish_tweet_requests/deploy.sh
-    - ./ingestion/request_tweets/deploy.sh
-    - ./dataflow/compute_sentiment_trigger/deploy.sh
 
 Deploy DEV (python):
   stage: deploy dev
