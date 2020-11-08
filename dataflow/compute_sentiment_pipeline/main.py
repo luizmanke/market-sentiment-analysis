@@ -62,7 +62,7 @@ class Preprocess(beam.DoFn):
         tweet_date, id_ = elements[:2]
         retweet_count, favorite_count, = elements[-2:]
 
-        tweet_date = datetime.strptime(tweet_date, "%Y-%m-%d %H:%M:%S")
+        tweet_date = datetime.strptime(tweet_date, "%a %b %d %H:%M:%S +0000 %Y")
         tweet_date = tweet_date.strftime("%Y-%m-%d %H:%M:%S")
         text = ",".join(elements[2:-2])
 
