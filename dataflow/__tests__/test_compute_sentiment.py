@@ -19,7 +19,7 @@ def test_Preprocess():
     GROUND_TRUTH = {
         "tweet_date": "2020-01-01 10:00:00",
         "id": "123456789",
-        "tweet": "Eu, João, Vini e Leo gostamos de programar",
+        "tweet": "RXUsIEpvw6NvLCBWaW5pIGUgTGVvIGdvc3RhbW9zIGRlIHByb2dyYW1hcg==",
         "retweet_count": "11",
         "favorite_count": "22"
     }
