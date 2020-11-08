@@ -84,7 +84,7 @@ def _save_to_cloud_storage(tweets, file_name):
     tweets.to_csv(document, index=False)
     document.seek(0)
     date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    blob = bucket.blob(f"tweets-requested/{file_name}-{date}.csv")
+    blob = bucket.blob(f"{file_name}-{date}.csv")
     blob.upload_from_file(document, content_type="text/csv")
 
 
@@ -93,5 +93,5 @@ def _connect_to_cloud_storage_bucket():
     PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
     credentials = Credentials.from_service_account_info(json.loads(CREDENTIALS))
     client = storage.Client(credentials=credentials, project=PROJECT_ID)
-    bucket = client.get_bucket(PROJECT_ID)
+    bucket = client.get_bucket(f"{PROJECT_ID}-tweets-requested")
     return bucket

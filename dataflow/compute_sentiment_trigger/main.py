@@ -12,7 +12,7 @@ def run(event, context):
 
     # Create inputs
     file_triggered = event["name"]
-    input_file_name = f"gs://{GOOGLE_PROJECT_ID}/tweets-requested/{file_triggered}"
+    input_file_name = f"gs://{GOOGLE_PROJECT_ID}-tweets-requested/{file_triggered}"
     output_table_name = f"{GOOGLE_PROJECT_ID}:datasets.tweets"
     print(file_triggered)
 
@@ -29,7 +29,7 @@ def run(event, context):
         body={
             "environment": {
                 "zone": f"{GOOGLE_REGION}-b",
-                "tempLocation": f"gs://{GOOGLE_PROJECT_ID}/dataflows/temp"
+                "tempLocation": f"gs://{GOOGLE_PROJECT_ID}-dataflows/temp"
             },
             "parameters": {
                 "input_file_name": input_file_name,
