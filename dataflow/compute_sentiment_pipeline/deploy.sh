@@ -8,7 +8,7 @@ pip install -r requirements.txt
 
 # Deploy
 echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
-export GOOGLE_APPLICATION_CREDENTIALS=/tmp/$CI_PIPELINE_ID.json
+export GOOGLE_APPLICATION_CREDENTIALS="/tmp/$CI_PIPELINE_ID.json"
 python -m main \
     --runner DataflowRunner \
     --project $GOOGLE_PROJECT_ID \
