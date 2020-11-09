@@ -5,17 +5,12 @@ import base64
 import emoji
 import logging
 from apache_beam.io.textio import ReadFromText
-from apache_beam.ml.gcp import naturallanguageml as nlp
 from apache_beam.options.pipeline_options import PipelineOptions
 from datetime import datetime
+from google.cloud import language
 
 
 def run(argv=None):
-    NLP_FEATURES = nlp.types.AnnotateTextRequest.Features(
-        extract_entities=False,
-        extract_document_sentiment=True,
-        extract_syntax=False
-    )
 
     # Parse arguments
     parser = argparse.ArgumentParser()
@@ -25,24 +20,14 @@ def run(argv=None):
     pipeline_options = PipelineOptions()
     custom_args = pipeline_options.view_as(CustomPipelineOptions)
     p = beam.Pipeline(options=pipeline_options)
-    data_preprocessed = (
+    _ = (
         p
         | "Load from Storage" >> ReadFromText(
             custom_args.input_file_name, skip_header_lines=1)
         | "Preprocess" >> beam.ParDo(Preprocess())
-    )
-    tweet_sentiments = (
-        data_preprocessed
-        | "Create NLP Documents" >> beam.ParDo(CreateDocuments())
-        | "Compute Sentiments" >> nlp.AnnotateText(NLP_FEATURES)
-        | "Refactor Response" >> beam.ParDo(RefactorSentimentResponse())
-    )
-    _ = (
-        (data_preprocessed, tweet_sentiments)
-        | "Group Results" >> beam.CoGroupByKey()
-        | "Postprocess" >> beam.ParDo(Postprocess())
+        | "Compute Sentiments" >> beam.ParDo(ComputeSentiment())
         | "Save to BigQuery" >> beam.io.WriteToBigQuery(
-            custom_args.output_table_name,
+            table=custom_args.output_table_name,
             write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
         )
     )
@@ -74,7 +59,7 @@ class Preprocess(beam.DoFn):
             "retweet_count": int(retweet_count),
             "favorite_count": int(favorite_count)
         }
-        return [(data["tweet"], data)]
+        return [data]
 
 
 def _decode_string(string):
@@ -85,28 +70,16 @@ def _decode_string(string):
     return string_w_emoji
 
 
-class CreateDocuments(beam.DoFn):
+class ComputeSentiment(beam.DoFn):
     def process(self, item):
-        doc = nlp.Document(item[1]["tweet"], language_hint="pt")
-        return [doc]
-
-
-class RefactorSentimentResponse(beam.DoFn):
-    def process(self, item):
-        sentences = [sentence.text.content for sentence in item.sentences]
-        new_item = (
-            " ".join(sentences),
-            {"sentiment": item.document_sentiment.score}
+        client = language.LanguageServiceClient()
+        doc = language.Document(
+            content=item["tweet"],
+            type_=language.Document.Type.PLAIN_TEXT
         )
-        return [new_item]
-
-
-class Postprocess(beam.DoFn):
-    def process(self, item):
-        logging.INFO(item)
-        new_item = item[1][0]
-        new_item.update(item[1][1])
-        return [new_item]
+        response = client.analyze_sentiment(document=doc)
+        item["sentiment"] = response.document_sentiment.score
+        return [item]
 
 
 if __name__ == "__main__":
