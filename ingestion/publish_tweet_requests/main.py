@@ -1,5 +1,6 @@
 # System packages
 import json
+import logging
 import os
 from datetime import datetime, timedelta
 from google.cloud import tasks_v2
@@ -95,7 +96,7 @@ def _get_period():
     now = datetime.now()
     since = (now - timedelta(days=1)).strftime("%Y-%m-%d")
     until = now.strftime("%Y-%m-%d")
-    print(f" - since: {since}  until: {until}")
+    logging.debug(f" - since: {since}  until: {until}")
     return since, until
 
 
@@ -132,7 +133,7 @@ def _publish_tweet_requests(companies, since, until):
         }
         response = client.create_task(request={"parent": queue_path, "task": task})
 
-        print(
+        logging.debug(
             f" - ticker: {ticker}  "
             f"searches: {values['searches']}  "
             f"task: {response.name}"

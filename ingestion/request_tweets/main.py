@@ -2,6 +2,7 @@
 import base64
 import emoji
 import json
+import logging
 import os
 import pandas as pd
 import twitter
@@ -14,7 +15,7 @@ from io import StringIO
 def run(request):
 
     data = request.get_json()
-    print(f" - data: {data}")
+    logging.debug(f" - data: {data}")
 
     tweets = _request_tweets(data["ticker"], data["searches"], data["since"], data["until"])
     _save_to_cloud_storage(tweets, data["ticker"])
@@ -47,7 +48,7 @@ def _request_tweets(ticker, searches, since, until):
                 max_id=max_id
             )
         except Exception as error:
-            print(f"{i}: {error}")
+            logging.error(f"{i}: {error}")
             raise Exception(f" - Timeout  {i}: {error}")
 
         # Select tweets

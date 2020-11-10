@@ -1,5 +1,6 @@
 # System packages
 import json
+import logging
 import os
 from google.oauth2.service_account import Credentials
 from googleapiclient import discovery
@@ -14,7 +15,7 @@ def run(event, context):
     file_triggered = event["name"]
     input_file_path = f"gs://{GOOGLE_PROJECT_ID}-tweets-requested/{file_triggered}"
     output_table_path = f"{GOOGLE_PROJECT_ID}:datasets.tweets"
-    print(file_triggered)
+    logging.debug(file_triggered)
 
     credentials = Credentials.from_service_account_info(json.loads(GOOGLE_CREDENTIALS))
     dataflow = discovery.build(
