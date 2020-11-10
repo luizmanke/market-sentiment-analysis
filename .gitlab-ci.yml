@@ -11,6 +11,8 @@ Unit Tests:
     GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
     GOOGLE_REGION: $GOOGLE_REGION_DEV
   script:
+    - echo $GOOGLE_CREDENTIALS > /tmp/$CI_PIPELINE_ID.json
+    - export GOOGLE_APPLICATION_CREDENTIALS=/tmp/$CI_PIPELINE_ID.json
     - pip install -r requirements.txt
     - flake8 .
     - pytest -v -m "not integration"
@@ -43,6 +45,7 @@ Integration Tests:
   stage: integration test
   image: python:3.8
   variables:
+    GITLAB_COMMIT_TIME: $(git show -s --format=%ci $CI_COMMIT_SHA)
     GOOGLE_CREDENTIALS: $GOOGLE_CREDENTIALS_DEV
     GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID_DEV
     GOOGLE_REGION: $GOOGLE_REGION_DEV
