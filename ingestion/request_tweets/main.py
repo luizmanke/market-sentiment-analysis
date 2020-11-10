@@ -15,7 +15,7 @@ from io import StringIO
 def run(request):
 
     data = request.get_json()
-    logging.debug(f" - data: {data}")
+    logging.info(f" - data: {data}")
 
     tweets = _request_tweets(data["ticker"], data["searches"], data["since"], data["until"])
     _save_to_cloud_storage(tweets, data["ticker"])
