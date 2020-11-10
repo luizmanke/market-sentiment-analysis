@@ -23,11 +23,11 @@ def run(argv=None):
     _ = (
         p
         | "Load from Storage" >> ReadFromText(
-            custom_args.input_file_name, skip_header_lines=1)
+            custom_args.input_file_path, skip_header_lines=1)
         | "Preprocess" >> beam.ParDo(Preprocess())
         | "Compute Sentiments" >> beam.ParDo(ComputeSentiment())
         | "Save to BigQuery" >> beam.io.WriteToBigQuery(
-            table=custom_args.output_table_name,
+            table=custom_args.output_table_path,
             write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
         )
     )
@@ -37,8 +37,9 @@ def run(argv=None):
 class CustomPipelineOptions(PipelineOptions):
     @classmethod
     def _add_argparse_args(cls, parser):
-        parser.add_value_provider_argument("--input_file_name")
-        parser.add_value_provider_argument("--output_table_name")
+        parser.add_value_provider_argument(
+            "--input_file_path", default="gs://project-id/file")
+        parser.add_value_provider_argument("--output_table_path")
 
 
 class Preprocess(beam.DoFn):

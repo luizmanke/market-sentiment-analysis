@@ -24,6 +24,7 @@ def test_ingestion():
     while not found:
         for blob in bucket.list_blobs():
             if "TEST" in blob.name:
+                blob.delete()
                 return
         time.sleep(10)
         i += 1

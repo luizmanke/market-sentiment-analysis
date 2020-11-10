@@ -12,8 +12,8 @@ def run(event, context):
 
     # Create inputs
     file_triggered = event["name"]
-    input_file_name = f"gs://{GOOGLE_PROJECT_ID}-tweets-requested/{file_triggered}"
-    output_table_name = f"{GOOGLE_PROJECT_ID}:datasets.tweets"
+    input_file_path = f"gs://{GOOGLE_PROJECT_ID}-tweets-requested/{file_triggered}"
+    output_table_path = f"{GOOGLE_PROJECT_ID}:datasets.tweets"
     print(file_triggered)
 
     credentials = Credentials.from_service_account_info(json.loads(GOOGLE_CREDENTIALS))
@@ -32,8 +32,8 @@ def run(event, context):
                 "tempLocation": f"gs://{GOOGLE_PROJECT_ID}-dataflows/temp"
             },
             "parameters": {
-                "input_file_name": input_file_name,
-                "output_table_name": output_table_name
+                "input_file_path": input_file_path,
+                "output_table_path": output_table_path
             },
             "jobName": file_triggered[:-4].lower()
         }

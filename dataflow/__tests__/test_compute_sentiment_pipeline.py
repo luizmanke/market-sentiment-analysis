@@ -1,5 +1,4 @@
 # System packages
-import apache_beam as beam
 import pytest
 from dotenv import load_dotenv
 
