@@ -19,13 +19,9 @@ def test_ingestion():
     bucket = request_tweets._connect_to_cloud_storage_bucket()
 
     # Wait for file
-    i = 0
-    found = False
-    while not found:
+    for _ in range(10):
         for blob in bucket.list_blobs():
             if "TEST" in blob.name:
                 return
         time.sleep(10)
-        i += 1
-        if i == 10:
-            raise Exception("Data was not ingested.")
+    raise Exception("Data was not ingested.")
