@@ -1,6 +1,11 @@
 # System packages
+import json
+import os
 import pytest
+import time
 from dotenv import load_dotenv
+from google.cloud import bigquery
+from google.oauth2.service_account import Credentials
 
 # Own packages
 from ..compute_sentiment_pipeline import main as compute_sentiment
@@ -11,7 +16,25 @@ load_dotenv()
 
 @pytest.mark.integration
 def test_publish_dataflow():
-    pass
+    GITLAB_COMMIT_TIME = os.getenv("GITLAB_COMMIT_TIME")
+    GOOGLE_CREDENTIALS = os.getenv("GOOGLE_CREDENTIALS")
+    GOOGLE_PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
+
+    credentials = Credentials.from_service_account_info(json.loads(GOOGLE_CREDENTIALS))
+    bqclient = bigquery.Client(credentials=credentials, project=GOOGLE_PROJECT_ID)
+    query_string = f"""
+        SELECT *
+        FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
+        WHERE created_at > '{GITLAB_COMMIT_TIME}'
+        ORDER BY tweet_date DESC
+    """
+
+    for _ in range(15):
+        results = bqclient.query(query_string).result()
+        time.sleep(60)
+        if results.total_rows > 0:
+            return
+    raise Exception("Data was not saved.")
 
 
 def test_Preprocess():
