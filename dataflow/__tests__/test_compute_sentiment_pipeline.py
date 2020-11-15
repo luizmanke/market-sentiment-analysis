@@ -22,17 +22,22 @@ def test_publish_dataflow():
 
     credentials = Credentials.from_service_account_info(json.loads(GOOGLE_CREDENTIALS))
     bqclient = bigquery.Client(credentials=credentials, project=GOOGLE_PROJECT_ID)
-    query_string = f"""
+    select_string = f"""
         SELECT *
         FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
         WHERE created_at > '{GITLAB_COMMIT_TIME}'
-        ORDER BY tweet_date DESC
+    """
+    delete_string = f"""
+        DELETE
+        FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
+        WHERE created_at > '{GITLAB_COMMIT_TIME}'
     """
 
     for _ in range(15):
-        results = bqclient.query(query_string).result()
+        results = bqclient.query(select_string).result()
         time.sleep(60)
         if results.total_rows > 0:
+            results = bqclient.query(delete_string)
             return
     raise Exception("Data was not saved.")
 
