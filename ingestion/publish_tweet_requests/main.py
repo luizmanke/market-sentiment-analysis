@@ -78,7 +78,7 @@ def run(request):
         # "TOTS": {"id": "", "searches": ["totvs", "tots", "tots3"]},
         # "UGPA": {"id": "", "searches": ["ultrapar", "ugpa", "ugpa3"]},
         # "USIM": {"id": "", "searches": ["usiminas", "usim", "usim5"]},
-        "VALE": {"id": "", "searches": ["vale s.a.", "vale", "vale3"]},
+        "VALE": {"id": "", "searches": ["vale s.a.", "vale3"]},
         # "VIVT": {"id": "", "searches": ["telefonica brasil", "vivt", "vivt4"]},
         "VVAR": {"id": "", "searches": ["viavarejo", "vvar", "vvar3"]},
         "WEGE": {"id": "", "searches": ["weg", "wege", "wege3"]},
