@@ -45,10 +45,11 @@ def test_publish_dataflow():
 def test_Preprocess():
     GROUND_TRUTH = {
         "tweet_date": "Sat Nov 01 23:50:20 +0000 2020",
-        "id": "123456789",
+        "tweet_id": "123456789",
         "tweet": "RXUsIEpvw6NvLCBWaW5pIGUgTGVvIGdvc3RhbW9zIGRlIHByb2dyYW1hcg==",
         "retweet_count": "11",
-        "favorite_count": "22"
+        "favorite_count": "22",
+        "ticker": "TEST"
     }
 
     input_string = ",".join(GROUND_TRUTH.values())
