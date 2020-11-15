@@ -21,7 +21,7 @@ def test_publish_dataflow():
     GOOGLE_PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
 
     credentials = Credentials.from_service_account_info(json.loads(GOOGLE_CREDENTIALS))
-    bqclient = bigquery.Client(credentials=credentials, project=GOOGLE_PROJECT_ID)
+    bq_client = bigquery.Client(credentials=credentials, project=GOOGLE_PROJECT_ID)
     select_string = f"""
         SELECT *
         FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
@@ -34,10 +34,10 @@ def test_publish_dataflow():
     """
 
     for _ in range(15):
-        results = bqclient.query(select_string).result()
+        results = bq_client.query(select_string).result()
         time.sleep(60)
         if results.total_rows > 0:
-            results = bqclient.query(delete_string)
+            results = bq_client.query(delete_string)
             return
     raise Exception("Data was not saved.")
 
