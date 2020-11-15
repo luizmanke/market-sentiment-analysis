@@ -45,20 +45,21 @@ class CustomPipelineOptions(PipelineOptions):
 class Preprocess(beam.DoFn):
     def process(self, item):
         elements = item.split(",")
-        tweet_date, id_ = elements[:2]
-        retweet_count, favorite_count, = elements[-2:]
+        tweet_date, tweet_id = elements[:2]
+        retweet_count, favorite_count, ticker = elements[-3:]
 
         tweet_date = datetime.strptime(tweet_date, "%a %b %d %H:%M:%S +0000 %Y")
         tweet_date = tweet_date.strftime("%Y-%m-%d %H:%M:%S")
-        text = ",".join(elements[2:-2])
+        text = ",".join(elements[2:-3])
 
         data = {
             "created_at": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
             "tweet_date": tweet_date,
-            "id": int(id_),
+            "tweet_id": int(tweet_id),
             "tweet": _decode_string(text),
             "retweet_count": int(retweet_count),
-            "favorite_count": int(favorite_count)
+            "favorite_count": int(favorite_count),
+            "ticker": ticker
         }
         return [data]
 

@@ -56,10 +56,11 @@ def _request_tweets(ticker, searches, since, until):
             if "retweeted_status" not in item and item["in_reply_to_status_id"] is None:
                 tweets.append({
                     "tweet_date": item["created_at"],
-                    "id": item["id"],
+                    "tweet_id": item["id"],
                     "tweet": _encode_string(item["full_text"]),
                     "retweet_count": item["retweet_count"],
                     "favorite_count": item["favorite_count"],
+                    "ticker": ticker
                 })
 
         # Update maximum tweet ID
