@@ -9,7 +9,7 @@ from google.oauth2.service_account import Credentials
 
 def run(request):
     COMPANIES = {
-        "ABEV": {"id": "", "searches": ["ambev", "abev", "abev3"]},
+        # "ABEV": {"id": "", "searches": ["ambev", "abev", "abev3"]},
         # "AZUL": {"id": "", "searches": ["azul linhas aereas", "azul", "azul4"]},
         # "B3SA": {"id": "", "searches": ["b3", "b3sa", "b3sa3"]},
         # "BBAS": {"id": "", "searches": ["banco do brasil", "bbas", "bbas3"]},
@@ -63,7 +63,7 @@ def run(request):
         # "MULT": {"id": "", "searches": ["multiplan", "mult", "mult3"]},
         # "NTCO": {"id": "", "searches": ["natura", "ntco", "ntco3"]},
         # "PCAR": {"id": "", "searches": ["pao de açucar", "pcar", "pcar3"]},
-        "PETR": {"id": "", "searches": ["petrobras", "petr", "petr3", "petr4"]},
+        # "PETR": {"id": "", "searches": ["petrobras", "petr", "petr3", "petr4"]},
         # "PRIO": {"id": "", "searches": ["petrorio", "prio", "prio3"]},
         # "QUAL": {"id": "", "searches": ["qualicorp", "qual", "qual3"]},
         # "RADL": {"id": "", "searches": ["raiadrogasil", "radl", "radl3"]},
@@ -78,9 +78,9 @@ def run(request):
         # "TOTS": {"id": "", "searches": ["totvs", "tots", "tots3"]},
         # "UGPA": {"id": "", "searches": ["ultrapar", "ugpa", "ugpa3"]},
         # "USIM": {"id": "", "searches": ["usiminas", "usim", "usim5"]},
-        "VALE": {"id": "", "searches": ["vale s.a.", "vale3"]},
+        # "VALE": {"id": "", "searches": ["vale s.a.", "vale3"]},
         # "VIVT": {"id": "", "searches": ["telefonica brasil", "vivt", "vivt4"]},
-        "VVAR": {"id": "", "searches": ["viavarejo", "vvar", "vvar3"]},
+        # "VVAR": {"id": "", "searches": ["viavarejo", "vvar", "vvar3"]},
         "WEGE": {"id": "", "searches": ["weg", "wege", "wege3"]},
         # "YDUQ": {"id": "", "searches": ["yduqs", "yduq", "yduq3"]}
     }
