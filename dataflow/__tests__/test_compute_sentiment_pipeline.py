@@ -24,12 +24,12 @@ def test_publish_dataflow():
     select_string = f"""
         SELECT *
         FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
-        WHERE ticker = TEST
+        WHERE ticker = 'TEST'
     """
     delete_string = f"""
         DELETE
         FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
-        WHERE ticker = TEST
+        WHERE ticker = 'TEST'
     """
 
     for _ in range(15):
