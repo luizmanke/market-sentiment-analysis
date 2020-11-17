@@ -16,7 +16,6 @@ load_dotenv()
 
 @pytest.mark.integration
 def test_publish_dataflow():
-    GITLAB_COMMIT_TIME = os.getenv("GITLAB_COMMIT_TIME")
     GOOGLE_CREDENTIALS = os.getenv("GOOGLE_CREDENTIALS")
     GOOGLE_PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
 
@@ -25,12 +24,12 @@ def test_publish_dataflow():
     select_string = f"""
         SELECT *
         FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
-        WHERE created_at > '{GITLAB_COMMIT_TIME}'
+        WHERE ticker == TEST
     """
     delete_string = f"""
         DELETE
         FROM `{GOOGLE_PROJECT_ID}.datasets.tweets`
-        WHERE created_at > '{GITLAB_COMMIT_TIME}'
+        WHERE ticker == TEST
     """
 
     for _ in range(15):
