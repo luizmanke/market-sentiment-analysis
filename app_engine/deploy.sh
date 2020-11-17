@@ -12,4 +12,5 @@ echo "  GOOGLE_CREDENTIALS: '$GOOGLE_CREDENTIALS'" >> app.yaml
 echo "  GOOGLE_PROJECT_ID: '$GOOGLE_PROJECT_ID'" >> app.yaml
 
 # Deploy
+gcloud config set project $GOOGLE_PROJECT_ID
 gcloud app deploy --quiet
