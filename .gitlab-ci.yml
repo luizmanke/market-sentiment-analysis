@@ -29,6 +29,7 @@ Deploy DEV (gcloud):
     - ./ingestion/publish_tweet_requests/deploy.sh
     - ./ingestion/request_tweets/deploy.sh
     - ./dataflow/compute_sentiment_trigger/deploy.sh
+    - ./app_engine/deploy.sh
 
 Deploy DEV (python):
   stage: deploy dev
