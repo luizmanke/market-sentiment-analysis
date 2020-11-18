@@ -13,7 +13,7 @@ def run(request):
         # "AZUL": {"id": "", "searches": ["azul linhas aereas", "azul", "azul4"]},
         # "B3SA": {"id": "", "searches": ["b3", "b3sa", "b3sa3"]},
         # "BBAS": {"id": "", "searches": ["banco do brasil", "bbas", "bbas3"]},
-        "BBDC": {"id": "", "searches": ["bradesco", "bbdc", "bbdc3", "bbdc4"]},
+        # "BBDC": {"id": "", "searches": ["bradesco", "bbdc", "bbdc3", "bbdc4"]},
         # "BBSE": {"id": "", "searches": ["bbseguridade", "bbse", "bbse3"]},
         # "BEEF": {"id": "", "searches": ["minerva", "beef", "beef3"]},
         # "BPAC": {"id": "", "searches": ["banco pactual", "btg", "bpac", "bpac11"]},
